@@ -19,6 +19,7 @@ var redis = require('redis')
   , validator = require('validator')
   , reds = require('reds')
   , passport = require('passport')
+  , i18n = require('i18n')
   , han = require('han');
 
 // kick-off the basis
@@ -31,27 +32,28 @@ var app = express()
   , sanitize = validator.sanitize
   , search = reds.createSearch('similar');
 
-// i18n translation
-
-var i18n = new (require('i18n-2'))({
-  locales: ['en', 'zh', 'ja'],
-  defaultLocale: 'en',
-  cookie: 'client_locale',
-  directory: __dirname + '/locales',
-  updateFiles: true,
-  extension: '.json'
-});
-
 // swig engine init
 
 swig.init({
-    root: __dirname + '/views', //match views setting in express
-    allowErrors: true //swig will not suppress error, leave it to express
+    root: __dirname + '/views', //= express views
+    allowErrors: true //= leave error handling to express
+});
+
+// i18n translation setup
+
+i18n.configure({
+  locales: ['en', 'zh'],
+  defaultLocale: 'en',
+  cookie: 'client_locale',
+  directory: __dirname + '/locales',
+  extension: '.js',
+  updateFiles: true,
 });
 
 // site-wide configuration
 
 app.configure(function(){
+
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
 
@@ -62,12 +64,30 @@ app.configure(function(){
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
+  app.use(express.cookieParser())
   app.use(express.methodOverride());
+
+  // guess client language
+  app.use(i18n.init);
+
+  // i18n should come before router, otherwise __ won't be available
+  app.use(function(req, res, next) {
+    res.locals.__ = res.__ = function() {
+      return i18n.__.apply(req, arguments);
+    };
+    res.locals.__n = res.__n = function() {
+      return i18n.__n.apply(req, arguments);
+    };
+    // important for control flow, will hang if missing
+    next();
+  });
+
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
+
 });
 
-// development and production configuration
+// development and production specific configuration
 
 app.configure('development', function(){
   app.use(express.errorHandler());
@@ -76,10 +96,18 @@ app.configure('development', function(){
 // server-side routing
 
 app.get('/', routes.home.index);
+app.get('/en', function(req, res){
+  i18n.setLocale(req, 'en');
+  routes.home.index(req, res);
+});
+app.get('/zh', function(req, res){
+  i18n.setLocale(req, 'zh');
+  routes.home.index(req, res);
+});
 app.get('/users', routes.users.list);
 
 // start server
 
 server.listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+  console.log("Express server listening on port " + app.get('port'));
 });

@@ -1,6 +1,6 @@
 
 /*
- * GET home page.
+ * GET available routes (controller)
  */
 
 exports.home = require('./home.js');
