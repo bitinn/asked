@@ -3,6 +3,5 @@
  * GET home page.
  */
 
-exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
-};
+exports.home = require('./home.js');
+exports.users = require('./user.js');
