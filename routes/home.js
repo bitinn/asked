@@ -1,13 +1,25 @@
 
 /*
- * GET home page.
+ * GET home page and stats.
  */
 
-exports.index = function(req, res){
-  res.render('index', { title: res.__("Site Name") });
-};
+module.exports = function(models){
 
-exports.lang = function(req, res){
-  res.render('index', { title: res.__("Site Name") });
-};
+  var home = {};
 
+  home.index = function(req, res){
+    res.render('index', { title: res.__("Site Name") });
+  };
+
+  home.add = function(req, res){
+    var params = {};
+    params.ua = req.headers['user-agent'];
+    params.date = Date.now();
+    models.online.add(params, function(){
+      res.render('index', { title: res.__("Site Name") });
+    });
+  };
+
+  return home;
+
+};

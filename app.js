@@ -3,10 +3,9 @@
  * Module dependencies.
  */
 
-// express or core modules
+// express and core modules
 
 var express = require('express')
-  , routes = require('./routes')
   , http = require('http')
   , path = require('path');
 
@@ -32,11 +31,17 @@ var app = express()
   , sanitize = validator.sanitize
   , search = reds.createSearch('similar');
 
+// redis error output 
+
+db.on('error', function (err) {
+  console.log("Error " + err);
+});
+
 // swig engine init
 
 swig.init({
-    root: __dirname + '/views', //= express views
-    allowErrors: true //= leave error handling to express
+  root: __dirname + '/views', //= express views
+  allowErrors: true //= leave error handling to express
 });
 
 // i18n translation setup
@@ -93,18 +98,24 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+// server-side model
+
+var models = require('./models')(db);
+
 // server-side routing
 
-app.get('/', routes.home.index);
+var routes = require('./routes')(models);
+
+app.get('/', routes.online.index);
 app.get('/en', function(req, res){
   i18n.setLocale(req, 'en');
-  routes.home.index(req, res);
+  routes.online.index(req, res);
 });
 app.get('/zh', function(req, res){
   i18n.setLocale(req, 'zh');
-  routes.home.index(req, res);
+  routes.online.index(req, res);
 });
-app.get('/users', routes.users.list);
+app.get('/online', routes.online.add);
 
 // start server
 

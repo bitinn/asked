@@ -3,5 +3,13 @@
  * GET available routes (controller)
  */
 
-exports.home = require('./home.js');
-exports.users = require('./user.js');
+module.exports = function(models){
+
+  var routes = {};
+
+  routes.online = require('./home.js')(models);
+  routes.users = require('./user.js');
+
+  return routes;
+
+};
