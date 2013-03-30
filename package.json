@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app"
+    "start": "supervisor -e html -w views app"
   },
   "dependencies": {
     "express": "3.1.x",

@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>{% block title %}{{ __("Asked - The finest Q&amp;A service") }}{% endblock %}</title>
+  <title>{% block title %}{{ __("Asked - The world&rsquo;s finest Q&amp;A service") }}{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="{% block description %}{{ __("Asked is the Q&amp;A service you really need, I mean, who doesn&rsquo;t have a couple of questions answers on their mind?") }}{% endblock %}" />
+  <meta name="description" content="{% block description %}{{ __("Asked is the Q&amp;A service you really need, I mean, who doesn&rsquo;t have a couple of questions and answers on their mind?") }}{% endblock %}" />
   <meta name="author" content="David Frank and The INTERNET" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="shortcut icon" href="/favicon.ico">
@@ -19,7 +19,7 @@
     <!-- Wrap the .navbar in .container to center it within the absolutely positioned parent. -->
     <div class="container">
 
-      <div class="navbar navbar-inverse">
+      <div class="navbar">
         <div class="navbar-inner">
           <!-- Responsive Navbar Part 1: Button for triggering responsive navbar (not covered in tutorial). Include responsive CSS to utilize. -->
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -27,24 +27,28 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#">Project name</a>
+          <a class="brand" href="#">{{ __("Project Asked") }}</a>
           <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li class="active"><a href="#">{{ __("Features") }}</a></li>
               <!-- Read about Bootstrap dropdowns at http://twitter.github.com/bootstrap/javascript.html#dropdowns -->
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ __("Great Q&amp;A") }} <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li class="nav-header">Nav header</li>
-                  <li><a href="#">Separated link</a></li>
-                  <li><a href="#">One more separated link</a></li>
+                  <li class="nav-header">{{ __("Order by") }}</li>
+                  <li><a href="#">{{ __("Usefulness") }}</a></li>
+                  <li><a href="#">{{ __("Creativity") }}</a></li>
+                  <li><a href="#">{{ __("Popularity") }}</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ __("Even Better Q&amp;A") }} <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li class="nav-header">{{ __("Order by") }}</li>
+                  <li><a href="#">{{ __("Irrelevance") }}</a></li>
+                  <li><a href="#">{{ __("Obscurity") }}</a></li>
+                  <li><a href="#">{{ __("Spam confidence level") }}</a></li>
                 </ul>
               </li>
             </ul>

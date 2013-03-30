@@ -39,7 +39,6 @@
       padding: 14px 20px 16px; /* Increase vertical padding to match navbar links */
       font-size: 16px;
       font-weight: bold;
-      text-shadow: 0 -1px 0 rgba(0,0,0,.5);
     }
 
     /* Navbar links: increase padding for taller navbar */
@@ -80,23 +79,20 @@
     .carousel .item {
       width: 100%;
       height: 500px;
-      background-size:cover;
-      background-repeat:no-repeat;
-      background-position:50% 50%;
+      background-repeat:repeat;
     }
 
     .carousel .item.bg01{
-      background-image:url(/extra/01.jpg);
+      background-image:url(/extra/bg01.png);
     }
 
     .carousel .item.bg02{
-      background-image:url(/extra/02.jpg);
+      background-image:url(/extra/bg02.png);
     }
 
     .carousel .item.bg03{
-      background-image:url(/extra/03.jpg);
+      background-image:url(/extra/bg03.png);
     }
-
 
     .carousel-caption {
       background-color: transparent;
