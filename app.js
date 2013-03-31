@@ -115,7 +115,6 @@ app.get('/zh', function(req, res){
   i18n.setLocale(req, 'zh');
   routes.online.index(req, res);
 });
-app.get('/online', routes.online.add);
 
 // start server
 

@@ -42,5 +42,6 @@
 	"Q&amp;A sucks.": "Q&amp;A sucks.",
 	"But hold on for a second, what if this one is different? How about a Q&amp;A service that automagically saves you from tasteless, worthless Q&amp;A?": "But hold on for a second, what if this one is different? How about a Q&amp;A service that automagically saves you from tasteless, worthless Q&amp;A?",
 	"Q&amp;A forever.": "Q&amp;A forever.",
-	"Here comes the game: every Q&amp;A&rsquo;s lifespan also depends on its scores - higher scores means longer lifespan. Your goal? make your Q&amp;As last forever.": "Here comes the game: every Q&amp;A&rsquo;s lifespan also depends on its scores - higher scores means longer lifespan. Your goal? make your Q&amp;As last forever."
+	"Here comes the game: every Q&amp;A&rsquo;s lifespan also depends on its scores - higher scores means longer lifespan. Your goal? make your Q&amp;As last forever.": "Here comes the game: every Q&amp;A&rsquo;s lifespan also depends on its scores - higher scores means longer lifespan. Your goal? make your Q&amp;As last forever.",
+	"Here comes the game: every Q&amp;A&rsquo;s lifespan also depends on its scores - higher scores means longer lifespan. Your goal is to make your Q&amp;As last forever.": "Here comes the game: every Q&amp;A&rsquo;s lifespan also depends on its scores - higher scores means longer lifespan. Your goal is to make your Q&amp;As last forever."
 }
