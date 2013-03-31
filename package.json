@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "supervisor -e html,js app"
+    "start": "supervisor -e html,js -n error app"
   },
   "dependencies": {
     "express": "3.1.x",
