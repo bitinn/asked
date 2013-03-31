@@ -3,12 +3,12 @@
  * Database models collection
  */
 
-module.exports = function(db){
+module.exports = function(db, oauth, config){
 
   var models = {};
 
-  //count who's online
-  models.online = require('./db.js')(db);
+  //user authentication
+  models.user = require('./user.js')(db, oauth, config);
 
   return models;
 

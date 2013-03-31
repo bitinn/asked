@@ -1,34 +1,24 @@
 
 /*
- * GET users authentication.
+ * GET user authentication.
  */
 
 module.exports = function(models){
 
-  var users = {};
+  var user = {};
 
-  users.twitter = function(req, res){
+  user.twitter = function(req, res) {
 
-    var passport = require('passport')
-      , TwitterStrategy = require('passport-twitter').Strategy;
+    models.user.twitter(req, res);
 
-    passport.use(new TwitterStrategy({
-        consumerKey: '',
-        consumerSecret: '',
-        callbackURL: ''
-      },
-      function(token, tokenSecret, profile, done) {
-        /*
-        User.findOrCreate(..., function(err, user) {
-          if (err) { return done(err); }
-          done(null, user);
-        });
-        */
-      }
-    ));
+  }
 
-  };
+  user.twitterCallback = function(req, res) {
 
-  return users;
+    models.user.twitterCallback(req, res);
+
+  }
+
+  return user;
 
 };

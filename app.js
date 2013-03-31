@@ -6,30 +6,42 @@
 // express and core modules
 
 var express = require('express')
-  , http = require('http')
-  , path = require('path');
+  , http = require('http');
+  //, path = require('path');
 
 // function specific modules 
 
 var redis = require('redis')
-  , socket = require('socket.io')
   , cons = require('consolidate')
   , swig = require('swig')
   , validator = require('validator')
-  , reds = require('reds')
-  , passport = require('passport')
   , i18n = require('i18n')
-  , han = require('han');
+  , ensure = require('connect-ensure-login');
+  //, socket = require('socket.io')
+  //, reds = require('reds')
+  //, han = require('han');
+
+// oauth modules
+
+var oauth = {};
+oauth.passport = passport = require('passport');
+oauth.twitter = require('passport-twitter').Strategy;
+oauth.weibo = require('passport-weibo').Strategy;
 
 // kick-off the basis
 
 var app = express()
   , server = http.createServer(app)
-  , io = socket.listen(server)
   , db = redis.createClient()
   , check = validator.check
   , sanitize = validator.sanitize
-  , search = reds.createSearch('similar');
+  , guard = ensure.ensureLoggedIn;
+  //, io = socket.listen(server)
+  //, search = reds.createSearch('similar');
+
+// config file
+
+var config = require('./config.js');
 
 // redis error output 
 
@@ -59,7 +71,7 @@ i18n.configure({
 
 app.configure(function(){
 
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', process.env.PORT || 80);
   app.set('views', __dirname + '/views');
 
   app.engine('jade', cons.jade);
@@ -69,7 +81,10 @@ app.configure(function(){
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
-  app.use(express.cookieParser())
+  app.use(express.cookieParser( config.cookie.signKey ))
+  app.use(express.session({ secret: config.cookie.sessionKey }));
+  app.use(passport.initialize());
+  app.use(passport.session());
   app.use(express.methodOverride());
 
   // guess client language
@@ -88,7 +103,8 @@ app.configure(function(){
   });
 
   app.use(app.router);
-  app.use(express.static(path.join(__dirname, 'public')));
+  //app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(__dirname + '/public'));
 
 });
 
@@ -100,21 +116,49 @@ app.configure('development', function(){
 
 // server-side model
 
-var models = require('./models')(db);
+var models = require('./models')(db, oauth, config);
 
 // server-side routing
 
 var routes = require('./routes')(models);
 
-app.get('/', routes.online.index);
+app.get('/', routes.home.index);
+
 app.get('/en', function(req, res){
   i18n.setLocale(req, 'en');
-  routes.online.index(req, res);
+  routes.home.add(req, res);
 });
+
 app.get('/zh', function(req, res){
   i18n.setLocale(req, 'zh');
-  routes.online.index(req, res);
+  routes.home.add(req, res);
 });
+
+// twitter oauth init
+app.get('/auth/twitter', routes.user.twitter);
+
+// twitter oauth callback
+app.get('/auth/twitter/callback', routes.user.twitterCallback);
+
+// user profile display
+app.get('/account',
+  guard('/login'),
+  function(req, res) {
+    res.send('Hello ' + req.user.username);
+  });
+
+// user login
+app.get('/login',
+  function(req, res) {
+    res.send('<html><body><a href="/auth/twitter">Sign in with Twitter</a></body></html>');
+  });
+
+// user logout
+app.get('/logout',
+  function(req, res) {
+    req.logout();
+    res.redirect('/');
+  });
 
 // start server
 

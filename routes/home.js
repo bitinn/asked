@@ -15,7 +15,7 @@ module.exports = function(models){
     var params = {};
     params.ua = req.headers['user-agent'];
     params.date = Date.now();
-    models.online.add(params, function(){
+    models.user.add(params, function(){
       res.render('index', { title: res.__("Site Name") });
     });
   };

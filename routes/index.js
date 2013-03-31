@@ -7,8 +7,8 @@ module.exports = function(models){
 
   var routes = {};
 
-  routes.online = require('./home.js')(models);
-  routes.users = require('./user.js')(models);
+  routes.home = require('./home.js')(models);
+  routes.user = require('./user.js')(models);
 
   return routes;
 

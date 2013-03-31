@@ -18,6 +18,7 @@
     "passport": "0.1.x",
     "passport-weibo": "0.0.x",
     "passport-twitter": "0.1.x",
+    "connect-ensure-login": "0.1.x",
     "i18n": "0.3.x",
     "han": "0.0.x"
   }
