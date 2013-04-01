@@ -1,9 +1,10 @@
 {
 	"Site Name": "Site Name",
-	"Asked - The world&rsquo;s finest Q&amp;A service": "Asked - The world&rsquo;s finest Q&amp;A service",
-	"Asked is the Q&amp;A service you really need, I mean, who doesn&rsquo;t have a couple of questions and answers on their mind?": "Asked is the Q&amp;A service you really need, I mean, who doesn&rsquo;t have a couple of questions and answers on their mind?",
-	"Project Asked": "Project Asked",
+	"QNA.im - The world&rsquo;s finest Q&amp;A service": "QNA.im - The world&rsquo;s finest Q&amp;A service",
+	"QNA.im is the Q&amp;A service you really need, I mean, who doesn&rsquo;t have a couple of questions and answers on their mind?": "QNA.im is the Q&amp;A service you really need, I mean, who doesn&rsquo;t have a couple of questions and answers on their mind?",
+	"QNA.im (Project Asked)": "QNA.im (Project Asked)",
 	"Features": "Features",
+	"Login": "Login",
 	"Great Q&amp;A": "Great Q&amp;A",
 	"Order by": "Order by",
 	"Usefulness": "Usefulness",
@@ -21,5 +22,6 @@
 	"Feeling brave": "Feeling brave",
 	"Q&amp;A forever.": "Q&amp;A forever.",
 	"Here comes the game: every Q&amp;A&rsquo;s lifespan depends on its scores - higher scores means longer lifespan. Your goal is to make your Q&amp;As worthy of survival.": "Here comes the game: every Q&amp;A&rsquo;s lifespan depends on its scores - higher scores means longer lifespan. Your goal is to make your Q&amp;As worthy of survival.",
-	"Challenge accepted": "Challenge accepted"
+	"Challenge accepted": "Challenge accepted",
+	"Back to top": "Back to top"
 }

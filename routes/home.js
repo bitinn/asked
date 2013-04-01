@@ -11,13 +11,17 @@ module.exports = function(models){
     res.render('index', { title: res.__("Site Name") });
   };
 
-  home.add = function(req, res){
-    var params = {};
-    params.ua = req.headers['user-agent'];
-    params.date = Date.now();
-    models.user.add(params, function(){
-      res.render('index', { title: res.__("Site Name") });
-    });
+  home.login = function(req, res){
+    res.send('<html><body><p><a href="/auth/twitter">Sign in with Twitter</a></p><p><a href="/auth/weibo">Sign in with Weibo</a></p></body></html>');
+  };
+
+  home.logout = function(req, res){
+    req.logout();
+    res.redirect('/');
+  };
+
+  home.message = function(req, res){
+    res.send('Hello ' + req.user.username + ', we have made an improvement to our system: you can now skip the question/answer altogether, oh boy what a relief!');
   };
 
   return home;

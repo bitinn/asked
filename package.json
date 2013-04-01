@@ -1,7 +1,7 @@
 {
   "name": "Asked",
-  "description": "The Asked project is about asking dumb (but great) questions in real-time, single-page app",
-  "version": "0.0.1",
+  "description": "The asked project is about asking dumb (but great) questions in real-time, single-page app",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "start": "supervisor -e html,js -n error app"

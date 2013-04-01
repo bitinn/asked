@@ -103,7 +103,6 @@ app.configure(function(){
   });
 
   app.use(app.router);
-  //app.use(express.static(path.join(__dirname, 'public')));
   app.use(express.static(__dirname + '/public'));
 
 });
@@ -126,12 +125,12 @@ app.get('/', routes.home.index);
 
 app.get('/en', function(req, res){
   i18n.setLocale(req, 'en');
-  routes.home.add(req, res);
+  routes.home.index(req, res);
 });
 
 app.get('/zh', function(req, res){
   i18n.setLocale(req, 'zh');
-  routes.home.add(req, res);
+  routes.home.index(req, res);
 });
 
 // twitter oauth init
@@ -147,24 +146,13 @@ app.get('/auth/weibo', routes.user.weibo);
 app.get('/auth/weibo/callback', routes.user.weiboCallback);
 
 // user profile display
-app.get('/account',
-  guard('/login'),
-  function(req, res) {
-    res.send('Hello ' + req.user.username);
-  });
+app.get('/account', guard('/login'), routes.home.message);
 
 // user login
-app.get('/login',
-  function(req, res) {
-    res.send('<html><body><p><a href="/auth/twitter">Sign in with Twitter</a></p><p><a href="/auth/weibo">Sign in with Weibo</a></p></body></html>');
-  });
+app.get('/login', routes.home.login);
 
 // user logout
-app.get('/logout',
-  function(req, res) {
-    req.logout();
-    res.redirect('/');
-  });
+app.get('/logout', routes.home.logout);
 
 // start server
 
