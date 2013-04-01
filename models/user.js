@@ -37,8 +37,8 @@ module.exports = function(db, oauth, config){
 
   // oauth setup - weibo
   oauth.passport.use(new oauth.weibo({
-      consumerKey: config.weibo.consumerKey,
-      consumerSecret: config.weibo.consumerSecret,
+      clientID: config.weibo.clientID,
+      clientSecret: config.weibo.clientSecret,
       callbackURL: config.weibo.callbackURL
     },
     function(token, tokenSecret, profile, done) {
