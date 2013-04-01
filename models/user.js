@@ -35,6 +35,34 @@ module.exports = function(db, oauth, config){
     }
   ));
 
+  // oauth setup - weibo
+  oauth.passport.use(new oauth.weibo({
+      consumerKey: config.weibo.consumerKey,
+      consumerSecret: config.weibo.consumerSecret,
+      callbackURL: config.weibo.callbackURL
+    },
+    function(token, tokenSecret, profile, done) {
+
+      //var params = {};
+      //console.log(profile);
+      return done(null, profile);
+
+      /*
+      User.findOne(params, function (err, user) {
+        if (err) { return done(err); }
+        if (!user) {
+          return done(null, false, { message: 'Incorrect username.' });
+        }
+        if (!user.validPassword(password)) {
+          return done(null, false, { message: 'Incorrect password.' });
+        }
+        return done(null, user);
+      });
+      */
+
+    }
+  ));
+
   // what to store/retrieve from session
   oauth.passport.serializeUser(function(user, done) {
     done(null, user);
@@ -46,8 +74,10 @@ module.exports = function(db, oauth, config){
 
   // expose authenticate api
   user.twitter = oauth.passport.authenticate('twitter');
+  user.weibo = oauth.passport.authenticate('weibo');
 
   user.twitterCallback = oauth.passport.authenticate('twitter', { successRedirect: '/account', failureRedirect: '/login' });
+  user.weiboCallback = oauth.passport.authenticate('weibo', { successRedirect: '/account', failureRedirect: '/login' });
 
   user.add = function(params, next) {
 

@@ -140,6 +140,12 @@ app.get('/auth/twitter', routes.user.twitter);
 // twitter oauth callback
 app.get('/auth/twitter/callback', routes.user.twitterCallback);
 
+// twitter oauth init
+app.get('/auth/weibo', routes.user.weibo);
+
+// twitter oauth callback
+app.get('/auth/weibo/callback', routes.user.weiboCallback);
+
 // user profile display
 app.get('/account',
   guard('/login'),
@@ -150,7 +156,7 @@ app.get('/account',
 // user login
 app.get('/login',
   function(req, res) {
-    res.send('<html><body><a href="/auth/twitter">Sign in with Twitter</a></body></html>');
+    res.send('<html><body><p><a href="/auth/twitter">Sign in with Twitter</a></p><p><a href="/auth/weibo">Sign in with Weibo</a></p></body></html>');
   });
 
 // user logout

@@ -19,6 +19,18 @@ module.exports = function(models){
 
   }
 
+  user.weibo = function(req, res) {
+
+    models.user.weibo(req, res);
+
+  }
+
+  user.weiboCallback = function(req, res) {
+
+    models.user.weiboCallback(req, res);
+
+  }
+
   return user;
 
 };
