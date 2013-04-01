@@ -28,11 +28,24 @@ module.exports = function(db, oauth, config){
 
   // what to store/retrieve from session
   oauth.passport.serializeUser(function(user, done) {
-    done(null, user);
+
+    done(null, user.local);
+
   });
 
-  oauth.passport.deserializeUser(function(obj, done) {
-    done(null, obj);
+  oauth.passport.deserializeUser(function(local, done) {
+
+    var user = {
+      local: local
+    };
+
+    loginUser(user, function(err, resp){
+
+      resp = JSON.parse(resp);
+      done(err, resp);
+
+    });
+
   });
 
   // expose authenticate api
@@ -42,11 +55,11 @@ module.exports = function(db, oauth, config){
   user.twitterCallback = oauth.passport.authenticate('twitter', { successRedirect: '/account', failureRedirect: '/login' });
   user.weiboCallback = oauth.passport.authenticate('weibo', { successRedirect: '/account', failureRedirect: '/login' });
 
-  // wrapper oauth handler
+  // wrapper oauth handler, normalize twitter profile
   function twitterUser(token, tokenSecret, profile, done) {
 
     if(!profile) {
-      return done(err);
+      return done(null, false);
     }
 
     var user = {
@@ -54,17 +67,20 @@ module.exports = function(db, oauth, config){
       id: profile.id,
       username: profile.username,
       nickname: profile.displayName,
-      avatar: profile.photos[0].value
+      avatar: profile.photos[0].value,
+      token: token,
+      secret: tokenSecret
     }
 
-    oauthUser(token, tokenSecret, user, done);
+    oauthUser(user, done);
 
   }
 
-  function weiboUser(token, tokenSecret, profile, done) {
+  // wrapper oauth handler, normalize weibo profile
+  function weiboUser(accessToken, refreshToken, profile, done) {
 
     if(!profile) {
-      return done(err);
+      return done(null, false);
     }
 
     var user = {
@@ -72,68 +88,89 @@ module.exports = function(db, oauth, config){
       id: profile.id,
       username: profile.username,
       nickname: profile.nickname,
-      avatar: profile.avatarUrl
+      avatar: profile.avatarUrl,
+      token: accessToken,
+      secret: refreshToken
     }
 
-    oauthUser(token, tokenSecret, user, done);
+    oauthUser(user, done);
 
   }
 
   // handle oauth result
-  function oauthUser(token, tokenSecret, profile, done) {
+  function oauthUser(user, done) {
 
-    var params = profile;
+    // construct local profile id of this user
+    user.local = prefix + '.' + user.provider + '.' + user.id;
 
-    // the local profile id of this user
-    params.local = prefix + '.' + params.provider + '.' + params.id;
+    // find existing user and run callback
+    matchUser(user, done, authAction);
 
-    matchUser(params, function(err, resp){
+  }
 
-      if(resp == 1) {
+  // handle user matching result
+  function authAction(error, result, user, done) {
 
-        loginUser(params, function(err, resp){
-          var user = JSON.parse(resp);
+    if(error) return done(error);
+
+    // user exists
+    if(result == 1) {
+
+      loginUser(user, function(err, resp){
+
+        if(err) return done(err);
+
+        resp = JSON.parse(resp);
+        return done(null, resp);
+
+      });
+
+    // user does not exist
+    } else {
+
+      registerUser(user, function(err, resp, user){
+
+        if(err) return done(err);
+
+        if(resp == 'OK')
           return done(null, user);
-        });
+        else
+          return done(null, false);
 
-      } else {
+      });
 
-        registerUser(params, function(err, resp){
-          if(resp == 'OK')
-            return done(null, params);
-        });
+    }
 
-      }
+  }
+
+  // exist user
+  function matchUser(user, done, next) {
+
+    db.exists(user.local, function(err, resp){
+
+      next(err, resp, user, done);
 
     });
 
   }
 
-  // exist user
-  function matchUser(params, next) {
-
-    db.exists(params.local, next);
-
-  }
-
   // login user
-  function loginUser(params, next) {
+  function loginUser(user, next) {
 
-    db.get(params.local, next);
+    db.get(user.local, next);
 
   }
 
   // register user
-  function registerUser(params, next) {
+  function registerUser(user, next) {
 
-    db.set(params.local, JSON.stringify(params), next);
+    db.set(user.local, JSON.stringify(user), function(err, resp){
+
+      next(err, resp, user);
+
+    });
 
   }
-
-  // expose local function
-  user.matchUser = matchUser;
-  user.loginUser = loginUser;
-  user.registerUser = registerUser;
 
   // legacy testing
   user.add = function(params, next) {

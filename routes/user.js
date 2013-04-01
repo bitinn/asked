@@ -7,29 +7,13 @@ module.exports = function(models){
 
   var user = {};
 
-  user.twitter = function(req, res) {
+  user.twitter = models.user.twitter;
 
-    models.user.twitter(req, res);
+  user.twitterCallback = models.user.twitterCallback;
 
-  }
+  user.weibo = models.user.weibo;
 
-  user.twitterCallback = function(req, res) {
-
-    models.user.twitterCallback(req, res);
-
-  }
-
-  user.weibo = function(req, res) {
-
-    models.user.weibo(req, res);
-
-  }
-
-  user.weiboCallback = function(req, res) {
-
-    models.user.weiboCallback(req, res);
-
-  }
+  user.weiboCallback = models.user.weiboCallback;
 
   return user;
 

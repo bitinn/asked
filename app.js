@@ -134,16 +134,16 @@ app.get('/zh', function(req, res){
 });
 
 // twitter oauth init
-app.get('/auth/twitter', routes.user.twitter);
+app.get('/auth/twitter', oauth.passport.authenticate('twitter'));
 
 // twitter oauth callback
-app.get('/auth/twitter/callback', routes.user.twitterCallback);
+app.get('/auth/twitter/callback', oauth.passport.authenticate('twitter', { successRedirect: '/account', failureRedirect: '/login' }));
 
 // twitter oauth init
-app.get('/auth/weibo', routes.user.weibo);
+app.get('/auth/weibo', oauth.passport.authenticate('weibo'));
 
 // twitter oauth callback
-app.get('/auth/weibo/callback', routes.user.weiboCallback);
+app.get('/auth/weibo/callback', oauth.passport.authenticate('weibo', { successRedirect: '/account', failureRedirect: '/login' }));
 
 // user profile display
 app.get('/account', guard('/login'), routes.home.message);
