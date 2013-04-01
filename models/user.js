@@ -59,6 +59,7 @@ module.exports = function(db, oauth, config){
   function twitterUser(token, tokenSecret, profile, done) {
 
     if(!profile) {
+      console.log('fire');
       return done(null, false);
     }
 
@@ -80,6 +81,7 @@ module.exports = function(db, oauth, config){
   function weiboUser(accessToken, refreshToken, profile, done) {
 
     if(!profile) {
+      console.log('fire');
       return done(null, false);
     }
 

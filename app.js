@@ -102,8 +102,12 @@ app.configure(function(){
     next();
   });
 
-  app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+  app.use(app.router);
+  
+  app.use(function(err, req, res, next){
+    res.send('500 - This server is sorry :(', 500);
+  });
 
 });
 
@@ -153,6 +157,11 @@ app.get('/login', routes.home.login);
 
 // user logout
 app.get('/logout', routes.home.logout);
+
+// catch-all
+app.get('*', function(req, res){
+  res.send('404 - This resource is missing :(', 404);
+});
 
 // start server
 
