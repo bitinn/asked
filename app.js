@@ -71,7 +71,7 @@ i18n.configure({
 
 app.configure(function(){
 
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', config.site.port || 3000);
   app.set('views', __dirname + '/views');
 
   app.engine('jade', cons.jade);
