@@ -106,7 +106,7 @@ app.configure(function(){
   app.use(app.router);
   
   app.use(function(err, req, res, next){
-    res.send('500 - This server is sorry about that :(', 500);
+    res.send('Error 500 - This server is sorry about that :(', 500);
   });
 
 });
@@ -160,7 +160,7 @@ app.get('/logout', routes.home.logout);
 
 // catch-all
 app.get('*', function(req, res){
-  res.send('404 - This resource is missing, so sad :(', 404);
+  res.send('Error 404 - This resource is missing, so sad :(', 404);
 });
 
 // start server
